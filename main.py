@@ -1,11 +1,14 @@
 from fastapi import FastAPI
 
-from api.routes import produto
+from src.routes import user_route
 from starlette.exceptions import HTTPException
-from api.errors.http_error import http_error_handler
+from src.util.errors_util import http_error_handler
+from src.db.database import Base, engine
+
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-app.include_router(produto.router)
+app.include_router(user_route.router)
 
 app.add_exception_handler(HTTPException, http_error_handler)
