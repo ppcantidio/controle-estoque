@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from src.routes import user_route
 from starlette.exceptions import HTTPException
 from src.util.errors_util import http_error_handler
-from src.db.database import Base, engine
+from db.connection import Base, engine
 
 Base.metadata.create_all(bind=engine)
 

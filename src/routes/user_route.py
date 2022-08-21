@@ -7,7 +7,7 @@ from ..service.user_service import UserService
 
 from ..util.funcao_util import retorna_sucesso
 
-from ..db.database import SessionLocal, engine
+from ..db.connection import SessionLocal, engine
 
 router = APIRouter(
     prefix='/usuario',
