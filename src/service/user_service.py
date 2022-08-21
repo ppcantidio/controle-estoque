@@ -1,14 +1,9 @@
 import logging
-import bcrypt
 
-from ..util import strings
 from ..db.user_db import UserDB
-from ..db.redis_db import RedisDB
 from ..util.log_util import sessao_transacao_log
-from ..util.funcao_util import criptografa_senha, gerar_chave, retorna_sucesso
 
 from starlette.exceptions import HTTPException
-from starlette.status import HTTP_400_BAD_REQUEST
 
 
 class UserService:

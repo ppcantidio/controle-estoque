@@ -1,7 +1,21 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, relationship
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 
-from ..models.user_model import UserTable
 from ..schemas.user_schema import UserCreateSchema
+
+from .connection import Base
+
+
+class UserTable(Base):
+    __tablename__ = "user"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, unique=True, index=True)
+    email = Column(String, unique=True, index=True)
+    password = Column(String)
+    is_active = Column(Boolean, default=True)
+
+    products = relationship("Product")
 
 
 class UserDB:
