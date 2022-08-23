@@ -12,7 +12,7 @@ class UserCreateSchema(BaseUser):
     password: str
     
 
-class User(BaseUser):
+class UserOutSchema(BaseUser):
     id: int
 
     class  Config:

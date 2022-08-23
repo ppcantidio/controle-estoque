@@ -17,7 +17,7 @@ class ProductCreateSchema(BaseProduct):
 
 class ProductSchema(BaseProduct):
     id: int
-    usuario_id: int
+    user_id: int
 
     class  Config:
         orm_mode = True

@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session, relationship
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 
-from ..schemas.user_schema import UserCreateSchema
+from ..schemas.user_schema import UserCreateSchema, UserOutSchema
 
 from .connection import Base
 
@@ -15,7 +15,7 @@ class UserTable(Base):
     password = Column(String)
     is_active = Column(Boolean, default=True)
 
-    products = relationship("Product")
+    products = relationship("ProductTable")
 
 
 class UserDB:
@@ -23,15 +23,20 @@ class UserDB:
         self.db = db
         self.sessao_transacao = sessao_transacao
 
+    def get_user_auth(self, user_email):
+        db_user = self.db.query(UserTable).filter(UserTable.email == user_email).first()
+        return db_user
+
     def get_user(self, user_id: int):
-        return self.db.query(UserTable).filter(UserTable.id == user_id).first()
+        db_user = self.db.query(UserTable).filter(UserTable.id == user_id).first()
+        return UserOutSchema.from_orm(db_user) 
 
     def get_user_by_email(self, user_email: str):
-        return self.db.query(UserTable).filter(UserTable.id == user_email).first()
+        return self.db.query(UserTable).filter(UserTable.email == user_email).first()
 
     def create_user(self, user: UserCreateSchema):
-        db_user = UserTable(user)
+        db_user = UserTable(**user)
         self.db.add(db_user)
         self.db.commit()
         self.db.refresh(db_user)
-        return db_user
+        return UserOutSchema.from_orm(db_user)

@@ -1,5 +1,4 @@
 import os
-
 import redis
 
 
@@ -11,11 +10,11 @@ class RedisDB:
             port=os.environ.get('REDIS_PORT')
         )
 
-    async def get_by_key(self, key):
+    def get_by_key(self, key):
         self.client.get(key)
     
-    async def delete_by_key(self, key):
+    def delete_by_key(self, key):
         self.client.delete(key)
 
-    async def insert_value(self, key, value):
+    def insert_value(self, key, value):
         self.client.delete(key, value)
