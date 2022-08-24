@@ -4,18 +4,18 @@ from pydantic import BaseModel
 
 
 class BaseProduct(BaseModel):
-    nome: str
-    quantidade: int
-    preco: int
-    categoria: str
-    descricao: Union[str, None] = None
+    name: str
+    quantity: int
+    price: int
+    category: str
+    description: Union[str, None] = None
 
 
 class ProductCreateSchema(BaseProduct):
     pass
 
 
-class ProductSchema(BaseProduct):
+class ProductOutSchema(BaseProduct):
     id: int
     user_id: int
 

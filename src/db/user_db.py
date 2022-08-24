@@ -19,24 +19,24 @@ class UserTable(Base):
 
 
 class UserDB:
-    def __init__(self, sessao_transacao, db: Session):
+    def __init__(self, sessao_transacao: dict, db: Session):
         self.db = db
         self.sessao_transacao = sessao_transacao
 
     def get_user_auth(self, user_email):
-        db_user = self.db.query(UserTable).filter(UserTable.email == user_email).first()
-        return db_user
+        user_db = self.db.query(UserTable).filter(UserTable.email == user_email).first()
+        return user_db
 
     def get_user(self, user_id: int):
-        db_user = self.db.query(UserTable).filter(UserTable.id == user_id).first()
-        return UserOutSchema.from_orm(db_user) 
+        user_db = self.db.query(UserTable).filter(UserTable.id == user_id).first()
+        return user_db
 
     def get_user_by_email(self, user_email: str):
         return self.db.query(UserTable).filter(UserTable.email == user_email).first()
 
     def create_user(self, user: UserCreateSchema):
-        db_user = UserTable(**user)
-        self.db.add(db_user)
+        user_db = UserTable(**user.dict())
+        self.db.add(user_db)
         self.db.commit()
-        self.db.refresh(db_user)
-        return UserOutSchema.from_orm(db_user)
+        self.db.refresh(user_db)
+        return user_db

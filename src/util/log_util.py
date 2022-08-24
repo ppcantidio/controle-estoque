@@ -1,9 +1,9 @@
 
 
-def sessao_transacao_log(id_sessao, id_transacao, collection=None):
+def sessao_transacao_log(session_id, transaction_id, collection=None):
     log = {
-        'id_sessao': id_sessao,
-        'id_transacao': id_transacao
+        'session_id': session_id,
+        'transaction_id': transaction_id
     }
 
     if collection is not None:

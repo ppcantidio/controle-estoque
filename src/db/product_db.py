@@ -1,4 +1,7 @@
+from sqlalchemy.orm import Session
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+
+from ..schemas.product_schema import ProductCreateSchema
 
 from .connection import Base
 
@@ -10,3 +13,19 @@ class ProductTable(Base):
     title = Column(String, index=True)
     description = Column(String, index=True)
     user_id = Column(Integer, ForeignKey("user.id"))
+
+
+class ProductDB:
+    def __init__(self, sessao_transacao: dict, db: Session):
+        self.db = db
+        self.sessao_transacao = sessao_transacao
+
+    def get_product(self, product_id: int):
+        self.db.query(ProductTable).filter(ProductTable.id == product_id).first()
+
+    def create_product(self, product: ProductCreateSchema):
+        product_db = ProductTable(**product.dict())
+        self.db.add(product_db)
+        self.db.commit()
+        self.db.refresh(product_db)
+        return product_db

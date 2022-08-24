@@ -2,7 +2,7 @@ from fastapi import  APIRouter, Request, Depends
 
 from sqlalchemy.orm import Session
 
-from ..schemas.user_schema import UserCreateSchema
+from ..schemas.user_schema import UserCreateSchema, UserOutSchema
 from ..service.user_service import UserService
 
 from ..util.funcao_util import retorna_sucesso
@@ -15,21 +15,21 @@ router = APIRouter(
 )
 
 
-@router.post('/')
-async def create_user(user: UserCreateSchema, request: Request, db_session: Session = Depends(get_db)):
-    id_sessao = request.headers.get('id_sessao')
-    id_transacao = request.headers.get('id_transacao')
+@router.post('/', response_model=UserOutSchema)
+async def create_user(user: UserCreateSchema, request: Request, session_db: Session = Depends(get_db)):
+    session_id = request.headers.get('session_id')
+    transaction_id = request.headers.get('transaction_id')
 
-    user = UserService(db_session, id_sessao, id_transacao).create_user(user)
+    user = UserService(session_db, session_id, transaction_id).create_user(user)
 
-    return retorna_sucesso(user, 'user')
+    return user
 
 
-@router.get('/{user_id}')
-async def get_user(user_id: int, request: Request, db_session: Session = Depends(get_db)):
-    id_sessao = request.headers.get('id_sessao')
-    id_transacao = request.headers.get('id_transacao')
+@router.get('/{user_id}', response_model=UserOutSchema)
+async def get_user(user_id: int, request: Request, session_db: Session = Depends(get_db)):
+    session_id = request.headers.get('session_id')
+    transaction_id = request.headers.get('transaction_id')
 
-    user = UserService(db_session, id_sessao, id_transacao).get_user(user_id)
+    user = UserService(session_db, session_id, transaction_id).get_user(user_id)
 
-    return retorna_sucesso(user, 'user')
+    return user

@@ -12,11 +12,11 @@ class UserService:
     """
     Class responsible for managing business rules related to users
     """
-    def __init__(self, db_session, id_sessao, id_transacao):
-        self.sessao_transacao = sessao_transacao_log(id_sessao, id_transacao)
-        self.user_db = UserDB(self.sessao_transacao, db_session)
+    def __init__(self, session_db, session_id, transaction_id):
+        self.sessao_transacao = sessao_transacao_log(session_id, transaction_id)
+        self.user_db = UserDB(self.sessao_transacao, session_db)
 
-    def create_user(self, user):
+    def create_user(self, user: object):
         """
         - Verify if exist an user with required email
         - Insert the user at database and return to controller
@@ -25,7 +25,6 @@ class UserService:
         if user_existence:
            raise HTTPException(status_code=400, detail="Email already registered")
 
-        user = jsonable_encoder(user)
         user = self.user_db.create_user(user=user)
 
         return user
