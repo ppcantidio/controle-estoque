@@ -13,7 +13,7 @@ class UserService:
     Class responsible for managing business rules related to users
     """
     def __init__(self, session_db, session_id, transaction_id):
-        self.sessao_transacao = sessao_transacao_log(session_id, transaction_id)
+        self.session_transaction= sessao_transacao_log(session_id, transaction_id)
         self.user_db = UserDB(self.sessao_transacao, session_db)
 
     def create_user(self, user: object):

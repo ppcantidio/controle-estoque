@@ -4,7 +4,7 @@ import redis
 
 class RedisDB:
     def __init__(self, sessao_transcao):
-        self.sessao_transacao = sessao_transcao
+        self.session_transaction= sessao_transcao
         self.client = redis.Redis(
             host=os.environ.get('REDIS_HOST'),
             port=os.environ.get('REDIS_PORT')

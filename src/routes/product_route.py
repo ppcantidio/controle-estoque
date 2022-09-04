@@ -21,4 +21,3 @@ def create_product(product: ProductCreateSchema, request: Request, session_db: S
     product = ProductService(session_id, transaction_id, session_db).create_product(product)
 
     return product
-

@@ -21,7 +21,7 @@ class UserTable(Base):
 class UserDB:
     def __init__(self, sessao_transacao: dict, db: Session):
         self.db = db
-        self.sessao_transacao = sessao_transacao
+        self.session_transaction= sessao_transacao
 
     def get_user_auth(self, user_email):
         user_db = self.db.query(UserTable).filter(UserTable.email == user_email).first()
